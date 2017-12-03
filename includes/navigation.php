@@ -1,5 +1,8 @@
+
+
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
+
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -10,9 +13,26 @@
             </button>
             <a class="navbar-brand" href="#">Start Bootstrap</a>
         </div>
+
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
+
+
+              <?php
+              //select all the data from the categories table
+                $query = "SELECT * FROM categories";
+                $select_all_categories_query = mysqli_query($connection, $query);
+
+                //to display all the values we use a while while loop
+                while($row = mysqli_fetch_assoc($select_all_categories_query)) {
+                  //finding the name of the rows and displaying them
+                  $cat_title = $row["cat_title"];
+                  echo "<li><a href='#'>{$cat_title}</a></li>";
+                }
+              ?>
+
+              <!--
                 <li>
                     <a href="#">About</a>
                 </li>
@@ -22,6 +42,8 @@
                 <li>
                     <a href="#">Contact</a>
                 </li>
+              -->
+
             </ul>
         </div>
         <!-- /.navbar-collapse -->
