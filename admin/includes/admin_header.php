@@ -1,3 +1,4 @@
+<?php ob_start(); //sends all request at the same time when scripts are finished ?>
 <?php include "../includes/db.php"; ?>
 
 
