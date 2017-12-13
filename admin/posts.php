@@ -19,37 +19,28 @@ include "includes/admin_header.php";
                           <small>Author</small>
                       </h1>
 
-                      <!--Create a table to display data-->
-                      <table class='table table-bordered table-hover'>
-                        <thead>
-                          <tr>
-                            <th>Post ID</th>
-                            <th>Author</th>
-                            <th>Title</th>
-                            <th>Category</th>
-                            <th>Status</th>
-                            <th>Image</th>
-                            <th>Tags</th>
-                            <th>Comments</th>
-                            <th>Date</th>
-                          </tr>
-                        </thead>
-                        
-                        <tbody>
-                          <tr>
-                            <td>10</td>
-                            <td>Beans</td>
-                            <td>Space Commets</td>
-                            <td>rocks</td>
-                            <td>cool</td>
-                            <td>yeahs</td>
-                            <td>none</td>
-                            <td>ok </td>
-                            <td>dates</td>
-                          </tr>
-                        </tbody>
+                      <?php
 
-                      </table>
+                        if(isset($_GET["source"])) {
+                          $source = $_GET["source"];
+                        } else {
+                          $source = "";
+                        }
+
+                        switch ($source) {
+                          case 'add_post':
+                            include "includes/add_post.php";
+                            break;
+
+                          default:
+                            //include default page
+                            include "includes/view_all_posts.php";
+                            break;
+                        }
+
+
+                      ?>
+
 
 
                     </div>
