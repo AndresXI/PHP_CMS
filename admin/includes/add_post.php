@@ -1,17 +1,44 @@
 <?php
 
-  if(isset($_POST['create_post'])) {
-    echo $_POST['title'];
+if(isset($_POST['create_post'])) {
+
+    //getting all the values from the form and then assiging them to
+    //variables
+    $post_title = $_POST['title'];
+    $post_author = $_POST['author'];
+    $post_category_id = $_POST['post_category_id'];
+    $post_status = $_POST['post_status'];
+
+    //for the post images we need the superglobal 'FILES'
+    $post_image = $_FILES['image']['name'];
+    //temporary location in server
+    $post_image_temp = $_FILES['image']['tmp_name'];
+
+    $post_tags = $_POST['post_tags'];
+    $post_content = $_POST['post_content'];
+    //date function in php
+    $post_date = date('d-m-y');
+    $post_comment_count = 4;
+
+    //function for the images, it uploads image to server and then relocates
+    //to the images folder in our project cms
+    move_uploaded_file($post_image_temp, "../images/$post_image");
+
+    $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_comment_count, post_status) ";
+
+   //the values are coming from the form
+   $query .= "VALUES({$post_category_id}, '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_comment_count}', '{$post_status}' ) ";
+
+   $create_post_query = mysqli_query($connection, $query);
+
+   if(!$create_post_query) {
+     die("QUERY FAILED" . mysqli_error($connection));
+   }
+
   }
 
 
 ?>
-
-
-
-
-
-
 
 
 
