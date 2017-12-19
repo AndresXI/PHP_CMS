@@ -32,6 +32,10 @@ include "includes/admin_header.php";
                             include "includes/add_post.php";
                             break;
 
+                          case 'edit_post':
+                            include "includes/edit_post.php";
+                            break;
+
                           default:
                             //include default page
                             include "includes/view_all_posts.php";

@@ -1,6 +1,19 @@
 
 <?php
 
+  function confirm_query($result) {
+
+    global $connection; 
+
+    if(!$result) {
+      die("QUERY FAILED" . mysqli_error($connection));
+    }
+
+  } // end confirm_query function
+
+
+
+
   function insert_categories() {
 
     global $connection;
@@ -68,7 +81,7 @@
        //we then refresh the page to delete data instantly
        header("Location: categories.php"); //this basically refreshes the page
      }
-  }// end delete_categories function 
+  }// end delete_categories function
 
 
 

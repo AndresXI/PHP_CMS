@@ -46,6 +46,12 @@
       echo "<td>$post_tags</td>";
       echo "<td>$post_comment_count</td>";
       echo "<td>$post_date</td>";
+      //we can divide values by using an ampersand (&)
+      //here we pass 2 parameters the source to take us to the page and
+      //the post ID to grab that especific post 
+      echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
+      //create link to delete post by grabing the post ID
+      echo "<td><a href='posts.php?delete={$post_id}'>Delete</a></td>";
       echo "</tr>";
     }
 
@@ -54,3 +60,18 @@
   </tbody>
 
 </table>
+
+<?php
+
+  if(isset($_GET['delete'])) {
+
+    $catch_post_id = $_GET['delete'];
+
+    $query = "DELETE FROM posts WHERE post_id = {$catch_post_id} ";
+    $delete_query = mysqli_query($connection, $query);
+
+  }
+
+
+
+?>
