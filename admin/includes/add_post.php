@@ -33,7 +33,7 @@ if(isset($_POST['create_post'])) {
 
    $create_post_query = mysqli_query($connection, $query);
 
-   //call to confirm query 
+   //call to confirm query
    confirm_query($create_post_query);
 
   }
@@ -52,8 +52,25 @@ if(isset($_POST['create_post'])) {
   </div>
 
   <div class="form-group">
-    <label class="col-form-label" for="formGroupExampleInput2">Post Category Id</label>
-    <input type="text" class="form-control" id="formGroupExampleInput2" name="post_category_id">
+    <select class="post_category" name="post_category_id">
+
+      <?php
+      //select all the data from the categories table
+        $query = "SELECT * FROM categories ";
+        $select_categories = mysqli_query($connection, $query);
+        confirm_query($select_categories);
+
+          //to display all the values we use a while while loop
+          while($row = mysqli_fetch_assoc($select_categories)) {
+            //finding the name of the rows and displaying them
+            $cat_id = $row["cat_id"];
+            $cat_title = $row["cat_title"];
+            //display it in an options dropdown menu
+            echo "<option selected value='$cat_id'>{$cat_title}</option>";
+          }
+      ?>
+
+    </select>
   </div>
 
   <div class="form-group">

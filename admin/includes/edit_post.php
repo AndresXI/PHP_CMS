@@ -53,7 +53,7 @@ if(isset($_POST["update_post"])) {
     $select_image = mysqli_query($connection, $query);
 
     while($row = mysqli_fetch_array($select_image)) {
-      $post_image = $row["post_image"]; 
+      $post_image = $row["post_image"];
     }
   }
 
@@ -112,8 +112,7 @@ if(isset($_POST["update_post"])) {
         $cat_title = $row["cat_title"];
 
         //display it in an options dropdown menu
-        echo "<option value=''>{$cat_title}</option>";
-
+        echo "<option selected value='$cat_id'>{$cat_title}</option>";
       }
 
 
