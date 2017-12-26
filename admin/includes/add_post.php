@@ -20,7 +20,7 @@ if(isset($_POST['create_post'])) {
     $post_content = $_POST['post_content'];
     //date function in php
     $post_date = date('d-m-y');
-    $post_comment_count = 4;
+    //$post_comment_count = 4;
 
     //function for the images, it uploads image to server and then relocates
     //to the images folder in our project cms
@@ -29,7 +29,7 @@ if(isset($_POST['create_post'])) {
     $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_comment_count, post_status) ";
 
    //the values are coming from the form
-   $query .= "VALUES({$post_category_id}, '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_comment_count}', '{$post_status}' ) ";
+   $query .= "VALUES({$post_category_id}, '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}' ) ";
 
    $create_post_query = mysqli_query($connection, $query);
 
