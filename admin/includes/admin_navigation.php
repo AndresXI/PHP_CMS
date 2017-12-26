@@ -44,10 +44,10 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-arrows-v"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo2" class="collapse">
                             <li>
-                                <a href="#">Dropdown Item</a>
+                                <a href="users.php">View All Users</a>
                             </li>
                             <li>
-                                <a href="#">Dropdown Item</a>
+                                <a href="users.php?source=add_user.php">Add User</a>
                             </li>
                         </ul>
                     </li>
@@ -69,7 +69,7 @@
                         <a href="comments.php"><i class="fa fa-fw fa-file"></i> Comments</a>
                     </li>
                     <li>
-                        <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> Profile</a>
+                        <a href="#"><i class="fa fa-fw fa-dashboard"></i> Profile</a>
                     </li>
                 </ul>
             </div>
