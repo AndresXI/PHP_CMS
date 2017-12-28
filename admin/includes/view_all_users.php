@@ -65,11 +65,12 @@
           //
           // }
 
-          echo "<td><a href='comments.php?approve='>Approve</a></td>";
-          //create link to delete post by grabing the post ID
-          echo "<td><a href='comments.php?unapprove='>Unapprove</a></td>";
-          //create link to delete post by grabing the post ID
-          echo "<td><a href='comments.php?delete='>Delete</a></td>";
+          echo "<td><a href='users.php?change_to_admin={$user_id}'>Admin</a></td>";
+          //create link to delete post by grabing the users ID
+          echo "<td><a href='users.php?change_to_sub={$user_id}'>Subscriber</a></td>";
+          //create link to delete post by grabing the users ID
+          echo "<td><a href='users.php?source=edit_user&edit_user={$user_id}'>Edit</a></td>";
+          echo "<td><a href='users.php?delete={$user_id}'>Delete</a></td>";
           echo "</tr>";
 
     } // end while loop
@@ -82,28 +83,28 @@
 
 <?php
 
-//approve query comments
-if(isset($_GET['approve'])) {
+// change to admin query
+if(isset($_GET['change_to_admin'])) {
 
-  $catch_comment_id = $_GET['approve'];
+  $catch_user_id = $_GET['change_to_admin'];
 
-  $query = "UPDATE comments SET comment_status = 'approve' WHERE comment_id = {$catch_comment_id} ";
-  $approve_comment_query = mysqli_query($connection, $query);
+  $query = "UPDATE users SET user_role = 'admin' WHERE user_id = {$catch_user_id} ";
+  $change_admin_query = mysqli_query($connection, $query);
   //refresh everytime it is submitted
-  header("Location: comments.php");
+  header("Location: users.php");
 
 }
 
 
-//unapprove query for comments
-if(isset($_GET['unapprove'])) {
+// change to subscriber query
+if(isset($_GET['change_to_sub'])) {
 
-  $catch_comment_id = $_GET['unapprove'];
+  $catch_user_id = $_GET['change_to_sub'];
 
-  $query = "UPDATE comments SET comment_status = 'unapprove' WHERE comment_id = {$catch_comment_id} ";
-  $unapprove_comment_query = mysqli_query($connection, $query);
+  $query = "UPDATE users SET user_role = 'subscriber' WHERE user_id = {$catch_user_id} ";
+  $change_to_sub_query = mysqli_query($connection, $query);
   //refresh everytime it is submitted
-  header("Location: comments.php");
+  header("Location: users.php");
 
 }
 
@@ -111,15 +112,14 @@ if(isset($_GET['unapprove'])) {
 
 
 
-//DELETE QUERY FOR COMMENTS
+//DELETE QUERY FOR USERS
   if(isset($_GET['delete'])) {
+    $catch_user_id = $_GET['delete'];
 
-    $catch_comment_id = $_GET['delete'];
-
-    $query = "DELETE FROM comments WHERE comment_id = {$catch_comment_id} ";
-    $delete_query = mysqli_query($connection, $query);
+    $query = "DELETE FROM users WHERE user_id = {$catch_user_id} ";
+    $delete_user_query = mysqli_query($connection, $query);
     //refresh everytime it is submitted
-    header("Location: comments.php");
+    header("Location: users.php");
 
   }
 

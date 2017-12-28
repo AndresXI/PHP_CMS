@@ -1,3 +1,4 @@
+
 <div class="col-md-4">
 
     <!-- Blog Search Well -->
@@ -15,6 +16,19 @@
        </form> <!--search form-->
         <!-- /.input-group -->
     </div>
+
+    <!-- Log in Form -->
+    <div class="well">
+        <h4>Blog Search</h4>
+        <form action="includes/login.php" method="post">
+          <div class="input-group">
+              <input type="text" class="form-control" placeholder="Enter Username" name="username">
+          </div>
+       </form> <!--search form-->
+        <!-- /.input-group -->
+    </div>
+
+
 
     <!-- Blog Categories Well -->
     <div class="well">

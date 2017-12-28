@@ -1,83 +1,72 @@
 
+
 <?php
 
-  if(isset($_GET['p_id'])) {
-//the post id from the url
-    $the_post_id = $_GET['p_id'];
+if(isset($_GET['edit_user'])) {
 
-  }
+  $catch_user_id = $_GET['edit_user'];
 
+  // retreiving data from that specific user
+  $query = "SELECT * FROM users WHERE user_id = {$catch_user_id}";
+  $select_users_query = mysqli_query($connection, $query);
 
-
-//select all the data from the posts table
-  $query = "SELECT * FROM posts WHERE post_id = $the_post_id ";
-  $select_posts_by_id = mysqli_query($connection, $query);
-
-  //to display all the values we use a while while loop
-  while($row = mysqli_fetch_assoc($select_posts_by_id)) {
-  //finding the name of the rows from the database and displaying them
-  $post_id = $row["post_id"];
-  $post_author = $row["post_author"];
-  $post_title = $row["post_title"];
-  $post_category_id = $row["post_category_id"];
-  $post_status = $row["post_status"];
-  $post_image = $row["post_image"];
-  $post_tags = $row["post_tags"];
-  $post_content = $row["post_content"];
-  $post_comment_count = $row["post_comment_count"];
-  $post_date = $row["post_date"];
-
-}
-
-//when the user hits the publish post button,
-//we update all the fields in the form
-if(isset($_POST["update_post"])) {
-
-  $post_author = $_POST["author"];
-  $post_title = $_POST["title"];
-  $post_category_id = $_POST["post_category_id"];
-  $post_status = $_POST["post_status"];
-  $post_image = $_FILES["post_image"]["name"];
-  //post image temporary location
-  $post_image_temp = $_FILES["post_image"]["tmp_name"];
-  $post_tags = $_POST["post_tags"];
-  $post_content = $_POST["post_content"];
-
-//moving the image from a temporary location to a permanent location
-  move_uploaded_file($post_image_temp, "../images/$post_image");
-
-//making sure the "$post_image" is not empty
-  if(empty($post_image)) {
-    $query = "SELECT * FROM posts WHERE post_id = $the_post_id ";
-    //getting the image from the database
-    $select_image = mysqli_query($connection, $query);
-
-    while($row = mysqli_fetch_array($select_image)) {
-      $post_image = $row["post_image"];
-    }
-  }
-
-//constructing the update query -- and updating the database
-  $query = "UPDATE posts SET ";
-  $query .= "post_title = '{$post_title}', ";
-  $query .= "post_category_id = '{$post_category_id}', ";
-  $query .= "post_date = now(), ";
-  $query .= "post_author = '{$post_author}', ";
-  $query .= "post_status = '{$post_status}', ";
-  $query .= "post_tags = '{$post_tags}', ";
-  $query .= "post_content = '{$post_content}', ";
-  $query .= "post_image = '{$post_image}' ";
-  $query .= "WHERE post_id = {$the_post_id} ";
-
-  //sending the query
-  $update_post = mysqli_query($connection, $query);
-  //making sure the query works
-  confirm_query($update_post);
-
+      //to display all the values we use a while while loop
+      while($row = mysqli_fetch_assoc($select_users_query)) {
+        //finding the name of the rows and displaying them
+        $user_id = $row["user_id"];
+        $username = $row["username"];
+        $user_password = $row["user_password"];
+        $user_first_name = $row["user_first_name"];
+        $user_last_name= $row["user_last_name"];
+        $user_email = $row["user_email"];
+        $user_image = $row["user_image"];
+        $user_role = $row["user_role"];
+      }// end while loop
 
 }
 
 
+
+if(isset($_POST['edit_user'])) {
+
+    //getting all the values from the form and then assiging them to
+    //variables
+    $user_first_name = $_POST['user_first_name'];
+    $user_last_name = $_POST['user_last_name'];
+    $user_role = $_POST['user_role'];
+    $username = $_POST['username'];
+
+    // //for the post images we need the superglobal 'FILES'
+    // $post_image = $_FILES['image']['name'];
+    // //temporary location in server
+    // $post_image_temp = $_FILES['image']['tmp_name'];
+
+    $user_email = $_POST['user_email'];
+    $user_password = $_POST['user_password'];
+    //date function in php
+    //$post_date = date('d-m-y');
+
+    //function for the images, it uploads image to server and then relocates
+    //to the images folder in our project cms
+    //move_uploaded_file($post_image_temp, "../images/$post_image");
+
+    //constructing the update query -- and updating the database
+      $query = "UPDATE users SET ";
+      $query .= "user_first_name = '{$user_first_name}', ";
+      $query .= "user_last_name = '{$user_last_name}', ";
+      $query .= "user_role = '{$user_role}', ";
+      $query .= "username = '{$username}', ";
+      $query .= "user_email = '{$user_email}', ";
+      $query .= "user_password = '{$user_password}' ";
+      $query .= "WHERE user_id = {$catch_user_id} ";
+
+      //sending the query
+      $edit_user_query = mysqli_query($connection, $query);
+      //making sure the query works
+      confirm_query($edit_user_query);
+
+
+  }
 
 
 ?>
@@ -85,96 +74,58 @@ if(isset($_POST["update_post"])) {
 
 
 
-
-<!-- Update Form -->
 <form action="" method="post" enctype="multipart/form-data">
 
   <div class="form-group">
-    <label class="col-form-label" for="formGroupExampleInput">Post Title</label>
-    <input value="<?php echo $post_title; ?>" type="text" class="form-control" id="formGroupExampleInput" name="title">
+    <label class="col-form-label" for="formGroupExampleInput2">First Name</label>
+    <input type="text" class="form-control" value="<?php echo $user_first_name; ?>" name="user_first_name">
+  </div>
+
+  <div class="form-group">
+    <label class="col-form-label" for="formGroupExampleInput">Last Name</label>
+    <input type="text" class="form-control" value="<?php echo $user_last_name; ?>" name="user_last_name">
   </div>
 
   <div class="form-group">
     <select class="post_category" name="user_role">
+      <option value="subscriber"><?php echo $user_role ?></option>
 
-      <?php
-      //select all the data from the users table
-        $query = "SELECT * FROM users ";
-        $select_users = mysqli_query($connection, $query);
-        confirm_query($select_users);
-
-          //to display all the values we use a while while loop
-          while($row = mysqli_fetch_assoc($select_users)) {
-            //finding the name of the rows and displaying them
-            $user_id = $row["user_id"];
-            $user_role = $row["user_role"];
-            //display it in an options dropdown menu
-            echo "<option selected value='$user_id'>{$user_role}</option>";
-          }
-      ?>
-
-    </select>
-  </div>
-
-
-
-  <div class="form-group">
-    <select class="post_category" name="post_category_id">
 
       <?php
 
-      //select all the data from the categories table
-        $query = "SELECT * FROM categories ";
-        $select_categories = mysqli_query($connection, $query);
+        if($user_role == 'admin') {
+          echo "<option value='subscriber'>subscriber</option>";
+        } else {
+          echo "<option value='admin'>admin</option>";
 
-        confirm_query($select_categories);
-
-      //to display all the values we use a while while loop
-      while($row = mysqli_fetch_assoc($select_categories)) {
-        //finding the name of the rows and displaying them
-        $cat_id = $row["cat_id"];
-        $cat_title = $row["cat_title"];
-
-        //display it in an options dropdown menu
-        echo "<option selected value='$cat_id'>{$cat_title}</option>";
-      }
-
-
+        }
       ?>
 
 
     </select>
   </div>
 
+  <!-- <div class="form-group">
+    <label class="col-form-label" for="post_image">Post Image</label>
+    <input type="file" class="form-control" id="formGroupExampleInput2" name="image">
+  </div> -->
+
   <div class="form-group">
-    <label class="col-form-label" for="formGroupExampleInput2">Post Author</label>
-    <input value="<?php echo $post_author; ?>" type="text" class="form-control" id="formGroupExampleInput2" name="author">
+    <label class="col-form-label" for="formGroupExampleInput2">Username</label>
+    <input type="text" class="form-control" value="<?php echo $username; ?>" name="username">
   </div>
 
   <div class="form-group">
-    <label class="col-form-label" for="formGroupExampleInput">Post Status</label>
-    <input value="<?php echo $post_status; ?>" type="text" class="form-control" id="formGroupExampleInput2" name="post_status">
+    <label class="col-form-label" for="formGroupExampleInput2">Email</label>
+    <input type="email" class="form-control" value="<?php echo $user_email; ?>" name="user_email" >
+  </div>
+  <div class="form-group">
+    <label class="col-form-label" for="formGroupExampleInput2">Password</label>
+    <input type="password" class="form-control" value="<?php echo $user_password; ?>" name="user_password" >
   </div>
 
   <div class="form-group">
-    <img width="100" src="../images/<?php echo $post_image; ?>" alt="">
-    <input type="file" name="post_image">
-  </div>
-
-  <div class="form-group">
-    <label class="col-form-label" for="formGroupExampleInput2">Post Tags</label>
-    <input value="<?php echo $post_tags; ?>" type="text" class="form-control" id="formGroupExampleInput2" name="post_tags">
-  </div>
-
-  <div class="form-group">
-    <label class="col-form-label" for="formGroupExampleInput2">Post Content</label>
-    <textarea class="form-control" id="" name="post_content" cols="30" rows="10">
-      <?php echo $post_content; ?>
-    </textarea>
-  </div>
-
-  <div class="form-group">
-    <input class="btn btn-primary" type="submit" name="update_post" value="Publish Post">
+    <input class="btn btn-primary" type="submit" name="edit_user" value="Update User">
   </div>
 
 </form>

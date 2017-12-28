@@ -6,7 +6,8 @@ if(isset($_POST['create_user'])) {
 
     //getting all the values from the form and then assiging them to
     //variables
-    echo $user_first_name = $_POST['user_first_name'];
+    $user_first_name = $_POST['user_first_name'];
+    $user_last_name = $_POST['user_last_name'];
     $user_role = $_POST['user_role'];
     $username = $_POST['username'];
 
@@ -23,16 +24,13 @@ if(isset($_POST['create_user'])) {
     //function for the images, it uploads image to server and then relocates
     //to the images folder in our project cms
     //move_uploaded_file($post_image_temp, "../images/$post_image");
-   //
-   // $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status) ";
-   //
-   // //the values are coming from the form
-   // $query .= "VALUES({$post_category_id}, '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}') ";
-   //
-   // $create_post_query = mysqli_query($connection, $query);
-   //
-   // //call to confirm query
-   // confirm_query($create_post_query);
+
+   $query = "INSERT INTO users(user_first_name, username, user_last_name, user_role, user_email, user_password) ";
+   //the values are coming from the form
+   $query .= "VALUES('{$user_first_name}', '{$username}', '{$user_last_name}', '{$user_role}', '{$user_email}', '{$user_password}') ";
+   $create_user_query = mysqli_query($connection, $query);
+   //call to confirm query
+   confirm_query($create_user_query);
 
   }
 
