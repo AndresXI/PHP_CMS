@@ -95,6 +95,30 @@ if(isset($_POST["update_post"])) {
   </div>
 
   <div class="form-group">
+    <select class="post_category" name="user_role">
+
+      <?php
+      //select all the data from the users table
+        $query = "SELECT * FROM users ";
+        $select_users = mysqli_query($connection, $query);
+        confirm_query($select_users);
+
+          //to display all the values we use a while while loop
+          while($row = mysqli_fetch_assoc($select_users)) {
+            //finding the name of the rows and displaying them
+            $user_id = $row["user_id"];
+            $user_role = $row["user_role"];
+            //display it in an options dropdown menu
+            echo "<option selected value='$user_id'>{$user_role}</option>";
+          }
+      ?>
+
+    </select>
+  </div>
+
+
+
+  <div class="form-group">
     <select class="post_category" name="post_category_id">
 
       <?php

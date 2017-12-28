@@ -9,7 +9,6 @@
       <th>Last Name</th>
       <th>Email</th>
       <th>Role</th>
-      <th>Date</th>
     </tr>
   </thead>
 
@@ -34,9 +33,9 @@
             $user_role = $row["user_role"];
 
             echo "<tr>";
-            echo "<td>$comment_id</td>";
-            echo "<td>$comment_author</td>";
-            echo "<td>$comment_content</td>";
+            echo "<td>$user_id</td>";
+            echo "<td>$username</td>";
+            echo "<td>$user_first_name</td>";
 
 
           //   //select all the data from the categories table
@@ -51,32 +50,29 @@
           //
           // }
 
+          echo "<td>$user_last_name</td>";
+          echo "<td>$user_email</td>";
+          echo "<td>$user_role</td>";
 
+          // $query = "SELECT * FROM posts WHERE post_id = $comment_post_id ";
+          // $select_post_id_query = mysqli_query($connection, $query);
+          // //loop used to bring all the data from the comments table
+          // while($row = mysqli_fetch_assoc($select_post_id_query)){
+          //   $post_id = $row["post_id"];
+          //   $post_title = $row["post_title"];
+          //
+          // echo "<td><a href='../post.php?p_id=$post_id'>$post_title</a></td>";
+          //
+          // }
 
-          echo "<td>$comment_email</td>";
-          echo "<td>$comment_status</td>";
-
-
-          $query = "SELECT * FROM posts WHERE post_id = $comment_post_id ";
-          $select_post_id_query = mysqli_query($connection, $query);
-          //loop used to bring all the data from the comments table
-          while($row = mysqli_fetch_assoc($select_post_id_query)){
-            $post_id = $row["post_id"];
-            $post_title = $row["post_title"];
-
-          echo "<td><a href='../post.php?p_id=$post_id'>$post_title</a></td>";
-
-          }
-
-
-          echo "<td>$comment_date</td>";
-          echo "<td><a href='comments.php?approve=$comment_id'>Approve</a></td>";
+          echo "<td><a href='comments.php?approve='>Approve</a></td>";
           //create link to delete post by grabing the post ID
-          echo "<td><a href='comments.php?unapprove=$comment_id'>Unapprove</a></td>";
+          echo "<td><a href='comments.php?unapprove='>Unapprove</a></td>";
           //create link to delete post by grabing the post ID
-          echo "<td><a href='comments.php?delete=$comment_id'>Delete</a></td>";
+          echo "<td><a href='comments.php?delete='>Delete</a></td>";
           echo "</tr>";
-    }
+
+    } // end while loop
 
     ?>
 
@@ -86,7 +82,7 @@
 
 <?php
 
-//approve query
+//approve query comments
 if(isset($_GET['approve'])) {
 
   $catch_comment_id = $_GET['approve'];
@@ -99,7 +95,7 @@ if(isset($_GET['approve'])) {
 }
 
 
-//unapprove query
+//unapprove query for comments
 if(isset($_GET['unapprove'])) {
 
   $catch_comment_id = $_GET['unapprove'];
