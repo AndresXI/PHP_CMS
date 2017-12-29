@@ -19,11 +19,20 @@
 
     <!-- Log in Form -->
     <div class="well">
-        <h4>Blog Search</h4>
+        <h4>Login</h4>
         <form action="includes/login.php" method="post">
-          <div class="input-group">
-              <input type="text" class="form-control" placeholder="Enter Username" name="username">
+
+          <div class="form-group">
+              <input type="text" class="form-control text-center" placeholder="Enter Username" name="username">
           </div>
+
+          <div class="form-group">
+              <input type="password" class="form-control text-center" placeholder="Enter Password" name="password">
+              <span >
+                <button name="login" class="btn btn-primary" type="submit">Submit</button>
+              </span>
+          </div>
+
        </form> <!--search form-->
         <!-- /.input-group -->
     </div>
