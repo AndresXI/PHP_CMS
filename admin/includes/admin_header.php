@@ -1,6 +1,21 @@
 <?php ob_start(); //sends all request at the same time when scripts are finished ?>
 <?php include "../includes/db.php"; ?>
 <?php include "functions.php"; ?>
+<?php session_start(); ?> <!--start a session -->
+
+
+<?php
+  //making sure the user is an admin
+  if(isset($_SESSION['user_role'])) {
+
+    if($_SESSION['user_role'] !== 'admin') {
+      //if the user is not an admin redirect back to index
+      header("Location: ../index.php");
+    }
+  }
+
+?>
+
 
 
 <!DOCTYPE html>

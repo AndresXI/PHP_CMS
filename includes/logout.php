@@ -26,7 +26,7 @@
 
 
   // pulling information from the database
-  while ($row = mysqli_fetch_array($select_user_query)) {
+  while ($row = mysqli_fetch_array($select_user_query)) { 
 
     $db_id = $row['user_id'];
     $db_username = $row['username'];
