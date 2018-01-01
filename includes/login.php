@@ -37,18 +37,17 @@
   }
 
   // validation logic
-  if($username !== $db_username && $password !== $db_password) {
-    //redirect user somewhere else
-    header("Location: ../index.php");
-  } else if($username == $db_username && $password == $db_password) {
+  if($username === $db_username && $password === $db_password) {
 
     //setting a session
     $_SESSION['username'] = $db_username;
     $_SESSION['lastname'] = $db_last_name;
     $_SESSION['firstname'] = $db_first_name;
     $_SESSION['user_role'] = $db_user_role;
+
     //receive the session at admin/index.php
     header("Location: ../admin/index.php");
+
   } else {
     header("Location: ../index.php");
 
