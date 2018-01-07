@@ -44,11 +44,11 @@ if(isset($_POST["update_post"])) {
   $post_content = $_POST["post_content"];
 
 //moving the image from a temporary location to a permanent location
-  move_uploaded_file($post_image_temp, "../images/$post_image");
+  // move_uploaded_file($post_image_temp, "../images/$post_image");
 
 //making sure the "$post_image" is not empty
   if(empty($post_image)) {
-    $query = "SELECT * FROM posts WHERE post_id = $the_post_id ";
+    $query = "SELECT * FROM p osts WHERE post_id = $the_post_id ";
     //getting the image from the database
     $select_image = mysqli_query($connection, $query);
 
@@ -127,9 +127,20 @@ if(isset($_POST["update_post"])) {
   </div>
 
   <div class="form-group">
-    <label class="col-form-label" for="formGroupExampleInput">Post Status</label>
-    <input value="<?php echo $post_status; ?>" type="text" class="form-control" id="formGroupExampleInput2" name="post_status">
+    <select name="post_status">
+      <option value="<?php echo $post_status ?>"><?php echo $post_status; ?></option>
+
+      <?php
+        if($post_status == 'publish') {
+          echo "<option value='draft'>draft</option>";
+        } else {
+          echo "<option value='publish'>publish</option>";
+        }
+      ?>
+
+    </select>
   </div>
+
 
   <div class="form-group">
     <img width="100" src="../images/<?php echo $post_image; ?>" alt="">
@@ -143,7 +154,7 @@ if(isset($_POST["update_post"])) {
 
   <div class="form-group">
     <label class="col-form-label" for="formGroupExampleInput2">Post Content</label>
-    <textarea class="form-control" id="" name="post_content" cols="30" rows="10">
+    <textarea class="form-control" id="summernote" name="post_content" cols="30" rows="10">
       <?php echo $post_content; ?>
     </textarea>
   </div>
