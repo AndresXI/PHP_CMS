@@ -44,11 +44,11 @@ if(isset($_POST["update_post"])) {
   $post_content = $_POST["post_content"];
 
 //moving the image from a temporary location to a permanent location
-  // move_uploaded_file($post_image_temp, "../images/$post_image");
+   move_uploaded_file($post_image_temp, "../images/$post_image");
 
 //making sure the "$post_image" is not empty
   if(empty($post_image)) {
-    $query = "SELECT * FROM p osts WHERE post_id = $the_post_id ";
+    $query = "SELECT * FROM posts WHERE post_id = $the_post_id ";
     //getting the image from the database
     $select_image = mysqli_query($connection, $query);
 
