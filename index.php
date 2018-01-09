@@ -57,6 +57,11 @@ include "includes/db.php";
 
                   <p><?php echo $post_content?></p>
 
+                  <a href="post.php?p_id=<?php echo $post_id; ?>" class="btn btn-primary">
+                    Read More <span class="glyphicon glyphicon-chevron-right"></span>
+                  </a>
+
+
                   <hr>
 
     <?php   }     ?>

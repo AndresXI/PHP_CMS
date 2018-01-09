@@ -74,6 +74,9 @@ if(isset($_POST["update_post"])) {
   //making sure the query works
   confirm_query($update_post);
 
+  //notification link
+  echo "<p class='bg-success'>Post Updated! <a href='../post.php?p_id={$the_post_id}'>View Post</a> or <a href='posts.php'>Edit More Posts</a></p>";
+
 
 }
 
@@ -160,7 +163,7 @@ if(isset($_POST["update_post"])) {
   </div>
 
   <div class="form-group">
-    <input class="btn btn-primary" type="submit" name="update_post" value="Publish Post">
+    <input class="btn btn-primary" type="submit" name="update_post" value="Update Post">
   </div>
 
 </form>
