@@ -35,6 +35,14 @@ if(isset($_POST['create_post'])) {
    //call to confirm query
    confirm_query($create_post_query);
 
+   //finding the last id created, this function pulls out the last
+   //created id in this table
+   $the_post_id = mysqli_insert_id($connection);
+
+   //notification link
+   echo "<p class='bg-success'>Post Created! <a href='../post.php?p_id={$the_post_id}'>View Post</a> or <a href='posts.php'>Edit More Posts</a></p>";
+
+
   }
 
 
@@ -77,9 +85,13 @@ if(isset($_POST['create_post'])) {
     <input type="text" class="form-control" id="formGroupExampleInput2" name="author">
   </div>
 
+
   <div class="form-group">
-    <label class="col-form-label" for="formGroupExampleInput">Post Status</label>
-    <input type="text" class="form-control" id="formGroupExampleInput2" name="post_status">
+    <select class="" name="post_status">
+      <option value="draft">Select Post Status</option>
+      <option value="publish">Publish</option>
+      <option value="draft">Draft</option>
+    </select>
   </div>
 
   <div class="form-group">
@@ -94,7 +106,7 @@ if(isset($_POST['create_post'])) {
 
   <div class="form-group">
     <label class="col-form-label" for="formGroupExampleInput2">Post Content</label>
-    <textarea class="form-control" id="" name="post_content" cols="30" rows="10"></textarea>
+    <textarea class="form-control" id="summernote" name="post_content" cols="30" rows="10"></textarea>
   </div>
 
   <div class="form-group">

@@ -63,7 +63,7 @@
 
     <div class="col-xs-4">
       <input type="submit" name="submit" value="Apply" class="btn btn-success">
-      <a href="add_post.php" class="btn btn-primary">Add New</a>
+      <a class="btn btn-primary" href="posts.php?source=add_post">Add New</a>
     </div>
 
 
@@ -80,6 +80,7 @@
         <th>Tags</th>
         <th>Comments</th>
         <th>Date</th>
+        <th>View Post</th>
         <th>Edit</th>
         <th>Delete</th>
       </tr>
@@ -141,6 +142,7 @@
             //we can divide values by using an ampersand (&)
             //here we pass 2 parameters the source to take us to the page and
             //the post ID to grab that especific post
+            echo "<td><a href='../post.php?p_id={$post_id}'>View Post</a></td>";
             echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
             //create link to delete post by grabing the post ID
             echo "<td><a href='posts.php?delete={$post_id}'>Delete</a></td>";
