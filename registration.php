@@ -1,14 +1,50 @@
 <?php  include "includes/db.php"; ?>
- <?php  include "includes/header.php"; ?>
+<?php  include "includes/header.php"; ?>
+<!-- Navigation -->
+<?php  include "includes/navigation.php"; ?>
 
 
-    <!-- Navigation -->
+<?php
+  // to retrieve data we use a superglobal POST
+  if(isset($_POST["submit"])) {
+    $username = $_POST["username"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
 
-    <?php  include "includes/navigation.php"; ?>
+    if(!empty($username) && !empty($email) && !empty($password)) {
+
+      // sanitizing data
+      $username = mysqli_real_escape_string($connection, $username);
+      $email = mysqli_real_escape_string($connection, $email);
+      $password = mysqli_real_escape_string($connection, $password);
+
+      // encrypting our password
+      $query = "SELECT r_and_salt FROM users ";
+      $select_randsalt_query = mysqli_query($connection, $query);
+
+      if(!$select_randsalt_query) {
+        die("QUERY FAILED" . mysqli_error($connection));
+      }
+
+      while($row = mysqli_fetch_array($select_randsalt_query)) {
+
+        echo $salt = $row["r_and_salt"];
+
+      } //end while loop
+
+    }// end if loop
 
 
-    <!-- Page Content -->
-    <div class="container">
+
+  }
+
+
+
+?>
+
+
+<!-- Page Content -->
+<div class="container">
 
 <section id="login">
     <div class="container">
@@ -29,7 +65,6 @@
                             <label for="password" class="sr-only">Password</label>
                             <input type="password" name="password" id="key" class="form-control" placeholder="Password">
                         </div>
-
                         <input type="submit" name="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
                     </form>
 
@@ -39,8 +74,7 @@
     </div> <!-- /.container -->
 </section>
 
-
-        <hr>
+<hr>
 
 
 
