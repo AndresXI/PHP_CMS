@@ -5,40 +5,53 @@
 
 
 <?php
+
   // to retrieve data we use a superglobal POST
-  if(isset($_POST["submit"])) {
+  if (isset($_POST["submit"])) {
     $username = $_POST["username"];
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-    if(!empty($username) && !empty($email) && !empty($password)) {
+
+    if (!empty($username) && !empty($email) && !empty($password)) {
 
       // sanitizing data
       $username = mysqli_real_escape_string($connection, $username);
       $email = mysqli_real_escape_string($connection, $email);
       $password = mysqli_real_escape_string($connection, $password);
 
-      // encrypting our password
       $query = "SELECT r_and_salt FROM users ";
       $select_randsalt_query = mysqli_query($connection, $query);
 
-      if(!$select_randsalt_query) {
+      if (!$select_randsalt_query) {
         die("QUERY FAILED" . mysqli_error($connection));
       }
 
-      while($row = mysqli_fetch_array($select_randsalt_query)) {
+      $row = mysqli_fetch_array($select_randsalt_query);
+      // encrypting our password
+      $salt = $row["r_and_salt"];
 
-        echo $salt = $row["r_and_salt"];
+      $password = crypt($password, $salt); 
 
-      } //end while loop
+      $query = "INSERT INTO users (username, user_email, user_password, user_role) ";
+      $query .= "VALUES('{$username}', '{$email}', '{$password}', 'subscriber' )";
+      $register_user_query = mysqli_query($connection, $query);
 
-    }// end if loop
+      if (!$register_user_query) {
+        die("QUERY FAILED " . mysqli_error($connection));
+      }
 
+      $confirm_message = "Your Registration has been submitted!";
 
+    } else {
+      $confirm_message = "Fields should not be empty";
+    }
+
+  } else {
+
+    $confirm_message = "";
 
   }
-
-
 
 ?>
 
@@ -53,6 +66,7 @@
                 <div class="form-wrap">
                 <h1 id="register">Register</h1>
                     <form role="form" action="registration.php" method="post" id="login-form" autocomplete="off">
+                        <h6 class="text-center"><?php echo $confirm_message; ?></h6>
                         <div class="form-group">
                             <label for="username" class="sr-only">username</label>
                             <input type="text" name="username" id="username" class="form-control" placeholder="Enter Desired Username">
@@ -75,7 +89,5 @@
 </section>
 
 <hr>
-
-
 
 <?php include "includes/footer.php";?>
