@@ -19,38 +19,43 @@
     $select_user_query = mysqli_query($connection, $query);
 
     if(!$select_user_query) {
-      die("QUERY FAILED" . mysqli_error($connection));
+
+        die("QUERY FAILED" . mysqli_error($connection));
+
     }
 
-  } // end ifsset function
+    // pulling information from the database
+    while ($row = mysqli_fetch_array($select_user_query)) {
 
+        $db_id = $row['user_id'];
+        $db_username = $row['username'];
+        $db_password = $row['user_password'];
+        $db_first_name = $row['user_first_name'];
+        $db_last_name = $row['user_last_name'];
+        $db_user_role = $row['user_role'];
+    }
 
-  // pulling information from the database
-  while ($row = mysqli_fetch_array($select_user_query)) {
+    // encrypting our password
+    $password = crypt($password, $db_password);
 
-    $db_id = $row['user_id'];
-    $db_username = $row['username'];
-    $db_password = $row['user_password'];
-    $db_first_name = $row['user_first_name'];
-    $db_last_name = $row['user_last_name'];
-    $db_user_role = $row['user_role'];
-  }
+    // validation logic
+    if($username === $db_username && $password === $db_password) {
 
-  // validation logic
-  if($username === $db_username && $password === $db_password) {
+        //setting a session
+        $_SESSION['username'] = $db_username;
+        $_SESSION['lastname'] = $db_last_name;
+        $_SESSION['firstname'] = $db_first_name;
+        $_SESSION['user_role'] = $db_user_role;
 
-    //setting a session
-    $_SESSION['username'] = $db_username;
-    $_SESSION['lastname'] = $db_last_name;
-    $_SESSION['firstname'] = $db_first_name;
-    $_SESSION['user_role'] = $db_user_role;
+        //receive the session at admin/index.php
+        header("Location: ../admin/index.php");
 
-    //receive the session at admin/index.php
-    header("Location: ../admin/index.php");
+    } else {
 
-  } else {
-    header("Location: ../index.php");
+      header("Location: ../index.php");
 
-  }
+    }
+
+} // end ifsset function
 
 ?>

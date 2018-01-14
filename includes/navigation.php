@@ -38,7 +38,7 @@
                 <a href="admin/index.php">Admin</a>
             </li>
             <li>
-                <a href="registration.php">Registration</a>
+                <a href="registration.php">Register</a>
             </li>
 
             <?php

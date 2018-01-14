@@ -2,7 +2,7 @@
 
 <?php
 
-if(isset($_GET['edit_user'])) {
+if (isset($_GET['edit_user'])) {
 
   $catch_user_id = $_GET['edit_user'];
 
@@ -10,24 +10,26 @@ if(isset($_GET['edit_user'])) {
   $query = "SELECT * FROM users WHERE user_id = {$catch_user_id}";
   $select_users_query = mysqli_query($connection, $query);
 
-      //to display all the values we use a while while loop
-      while($row = mysqli_fetch_assoc($select_users_query)) {
-        //finding the name of the rows and displaying them
-        $user_id = $row["user_id"];
-        $username = $row["username"];
-        $user_password = $row["user_password"];
-        $user_first_name = $row["user_first_name"];
-        $user_last_name= $row["user_last_name"];
-        $user_email = $row["user_email"];
-        $user_image = $row["user_image"];
-        $user_role = $row["user_role"];
-      }// end while loop
+  //to display all the values we use a while while loop
+  while ($row = mysqli_fetch_assoc($select_users_query)) {
+
+    //finding the name of the rows and displaying them
+    $user_id = $row["user_id"];
+    $username = $row["username"];
+    $user_password = $row["user_password"];
+    $user_first_name = $row["user_first_name"];
+    $user_last_name= $row["user_last_name"];
+    $user_email = $row["user_email"];
+    $user_image = $row["user_image"];
+    $user_role = $row["user_role"];
+
+  }// end while loop
 
 }
 
 
-
-if(isset($_POST['edit_user'])) {
+//updating the user
+if (isset($_POST['edit_user'])) {
 
     //getting all the values from the form and then assiging them to
     //variables
@@ -50,21 +52,34 @@ if(isset($_POST['edit_user'])) {
     //to the images folder in our project cms
     //move_uploaded_file($post_image_temp, "../images/$post_image");
 
+    //encrypting the updated password
+    $query = "SELECT r_and_salt FROM users ";
+    $select_r_and_salt_query = mysqli_query($connection, $query);
+    if (!$select_r_and_salt_query) {
+
+      die("QUERY FAILED" . mysqli_error($connection));
+
+      }
+
+    //going inside the database to get the result back
+    $row = mysqli_fetch_array($select_r_and_salt_query);
+    $salt = $row["r_and_salt"];
+    $hashed_password = crypt($user_password, $salt);
+
     //constructing the update query -- and updating the database
-      $query = "UPDATE users SET ";
-      $query .= "user_first_name = '{$user_first_name}', ";
-      $query .= "user_last_name = '{$user_last_name}', ";
-      $query .= "user_role = '{$user_role}', ";
-      $query .= "username = '{$username}', ";
-      $query .= "user_email = '{$user_email}', ";
-      $query .= "user_password = '{$user_password}' ";
-      $query .= "WHERE user_id = {$catch_user_id} ";
+    $query = "UPDATE users SET ";
+    $query .= "user_first_name = '{$user_first_name}', ";
+    $query .= "user_last_name = '{$user_last_name}', ";
+    $query .= "user_role = '{$user_role}', ";
+    $query .= "username = '{$username}', ";
+    $query .= "user_email = '{$user_email}', ";
+    $query .= "user_password = '{$hashed_password}' ";// the new update hashed password
+    $query .= "WHERE user_id = {$catch_user_id} ";
 
-      //sending the query
-      $edit_user_query = mysqli_query($connection, $query);
-      //making sure the query works
-      confirm_query($edit_user_query);
-
+    //sending the query
+    $edit_user_query = mysqli_query($connection, $query);
+    //making sure the query works
+    confirm_query($edit_user_query);
 
   }
 
@@ -88,19 +103,20 @@ if(isset($_POST['edit_user'])) {
 
   <div class="form-group">
     <select class="post_category" name="user_role">
-      <option value="subscriber"><?php echo $user_role ?></option>
-
+      <option value="<?php echo $user_role; ?>"><?php echo $user_role; ?></option>
 
       <?php
 
-        if($user_role == 'admin') {
+        if ($user_role == 'admin') {
+
           echo "<option value='subscriber'>subscriber</option>";
+
         } else {
+
           echo "<option value='admin'>admin</option>";
 
         }
       ?>
-
 
     </select>
   </div>
