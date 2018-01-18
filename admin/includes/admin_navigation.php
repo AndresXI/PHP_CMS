@@ -1,6 +1,4 @@
 
-
-
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -24,8 +22,7 @@
 
                 if(isset($_SESSION["username"])) {
                     echo $_SESSION["username"];
-                } 
-
+                }
 
               ?>
 

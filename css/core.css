@@ -1,7 +1,15 @@
+
+
 #register {
   text-align: center;
 }
 
 #btn-login {
-  background-color: #b3c1d6; 
+  background-color: #b3c1d6;
+}
+
+.pager li>a.active {
+  background-color: #a5a5a5 !important;
+
+
 }

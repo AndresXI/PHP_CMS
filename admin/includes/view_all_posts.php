@@ -87,8 +87,6 @@
       <a class="btn btn-primary" href="posts.php?source=add_post">Add New</a>
     </div>
 
-
-
     <thead>
       <tr>
         <th><input id="selectAllBoxes" type="checkbox"></th>
@@ -102,6 +100,7 @@
         <th>Comments</th>
         <th>Date</th>
         <th>View Post</th>
+        <th>Post Views</th>
         <th>Edit</th>
         <th>Delete</th>
       </tr>
@@ -127,6 +126,7 @@
               $post_tags = $row["post_tags"];
               $post_comment_count = $row["post_comment_count"];
               $post_date = $row["post_date"];
+              $post_views = $row["post_views"];
 
               echo "<tr>";
 
@@ -153,8 +153,6 @@
 
             }
 
-
-
             echo "<td>$post_status</td>";
             echo "<td><img src='../images/$post_image' width='100' height='100'</td>";
             echo "<td>$post_tags</td>";
@@ -164,6 +162,7 @@
             //here we pass 2 parameters the source to take us to the page and
             //the post ID to grab that especific post
             echo "<td><a href='../post.php?p_id={$post_id}'>View Post</a></td>";
+            echo "<td><a href='posts.php?reset={$post_id}'>$post_views</a></td>";
             echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
             //create link to delete post by grabing the post ID
             echo "<td><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \" href='posts.php?delete={$post_id}'>Delete</a></td>";
@@ -180,12 +179,23 @@
 
 <?php
 //Delete query
-  if(isset($_GET['delete'])) {
+  if (isset($_GET['delete'])) {
 
     $catch_post_id = $_GET['delete'];
 
     $query = "DELETE FROM posts WHERE post_id = {$catch_post_id} ";
     $delete_query = mysqli_query($connection, $query);
+    header("Location: posts.php");
+
+  }
+
+//reset query for post views
+  if (isset($_GET['reset'])) {
+
+    $catch_post_id = $_GET['reset'];
+
+    $query = "UPDATE posts SET post_views = 0 WHERE post_id = $catch_post_id ";
+    $reset_query = mysqli_query($connection, $query);
     header("Location: posts.php");
 
   }
