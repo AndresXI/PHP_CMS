@@ -32,9 +32,25 @@ $(document).ready(function() {
 
   })
 
+//this function has some AJAX
+  function loadUsersOnline() {
 
+    // this sends a GET request to functions.php
+    //we send in a varible onlineusers
+      $.get("functions.php?onlineusers=result", function(data){
 
+        $(".users_online").text(data);
 
+      });
+
+  }
+
+//this function calls loadUsersOnline(); every half second (500)
+  setInterval(function(){
+
+    loadUsersOnline();
+
+  }, 5);
 
 
 });
