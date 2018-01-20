@@ -36,10 +36,10 @@
     }
 
     // encrypting our password
-    $password = crypt($password, $db_password);
+    //$password = crypt($password, $db_password);
 
-    // validation logic
-    if($username === $db_username && $password === $db_password) {
+    // validating the user password 
+    if(password_verify($password, $db_password)) {
 
         //setting a session
         $_SESSION['username'] = $db_username;

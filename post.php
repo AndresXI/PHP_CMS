@@ -89,7 +89,7 @@ include "includes/db.php";
          $comment_content = $_POST["comment_content"];
 
          //making sure the data is not empty
-         if(!empty($comment_author) && !empty($comment_email) && !empty($comment_content)) {
+         if (!empty($comment_author) && !empty($comment_email) && !empty($comment_content)) {
 
             // get post id from the url
             $catch_post_id = $_GET['p_id'];
@@ -104,12 +104,12 @@ include "includes/db.php";
             $query .= "VALUES ($catch_post_id, '{$comment_author}', '{$comment_email}', '{$comment_content}', 'unapproved', now())";
 
             $create_comment_query = mysqli_query($connection, $query);
-            if(!$create_comment_query) {
-              die("QUERY FAILED" . mysqli_error($connection));
-            }
 
-            $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";
-            $query .= "WHERE post_id = {$catch_post_id} ";
+            if (!$create_comment_query) {
+
+              die("QUERY FAILED" . mysqli_error($connection));
+              
+            }
 
             $update_comment_count = mysqli_query($connection, $query);
 

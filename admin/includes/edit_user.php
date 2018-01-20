@@ -25,7 +25,7 @@ if (isset($_GET['edit_user'])) {
 
   }// end while loop
 
-}
+
 
 
 //updating the user
@@ -37,57 +37,60 @@ if (isset($_POST['edit_user'])) {
     $user_last_name = $_POST['user_last_name'];
     $user_role = $_POST['user_role'];
     $username = $_POST['username'];
-
-    // //for the post images we need the superglobal 'FILES'
-    // $post_image = $_FILES['image']['name'];
-    // //temporary location in server
-    // $post_image_temp = $_FILES['image']['tmp_name'];
-
     $user_email = $_POST['user_email'];
     $user_password = $_POST['user_password'];
     //date function in php
-    //$post_date = date('d-m-y');
+    $post_date = date('d-m-y');
 
     //function for the images, it uploads image to server and then relocates
     //to the images folder in our project cms
     //move_uploaded_file($post_image_temp, "../images/$post_image");
 
-    //encrypting the updated password
-    $query = "SELECT r_and_salt FROM users ";
-    $select_r_and_salt_query = mysqli_query($connection, $query);
-    if (!$select_r_and_salt_query) {
-
-      die("QUERY FAILED" . mysqli_error($connection));
-
-      }
-
     //going inside the database to get the result back
-    $row = mysqli_fetch_array($select_r_and_salt_query);
-    $salt = $row["r_and_salt"];
-    $hashed_password = crypt($user_password, $salt);
+    if (!empty($user_password)) {
 
-    //constructing the update query -- and updating the database
-    $query = "UPDATE users SET ";
-    $query .= "user_first_name = '{$user_first_name}', ";
-    $query .= "user_last_name = '{$user_last_name}', ";
-    $query .= "user_role = '{$user_role}', ";
-    $query .= "username = '{$username}', ";
-    $query .= "user_email = '{$user_email}', ";
-    $query .= "user_password = '{$hashed_password}' ";// the new update hashed password
-    $query .= "WHERE user_id = {$catch_user_id} ";
+        $query_password = "SELECT user_password FROM users WHERE user_id = $catch_user_id ";
+        $get_user_query  = mysqli_query($connection, $query_password);
+        confirm_query($get_user_query);
 
-    //sending the query
-    $edit_user_query = mysqli_query($connection, $query);
-    //making sure the query works
-    confirm_query($edit_user_query);
+        $row = mysqli_fetch_array($get_user_query);
+        $db_user_password = $row['user_password'];
+
+        if ($db_user_password != $user_password) {
+
+            $hashed_password = password_hash($user_password, PASSWORD_BCRYPT, array('cost' => 12));
+
+        }
+
+        //constructing the update query -- and updating the database
+        $query = "UPDATE users SET ";
+        $query .= "user_first_name = '{$user_first_name}', ";
+        $query .= "user_last_name = '{$user_last_name}', ";
+        $query .= "user_role = '{$user_role}', ";
+        $query .= "username = '{$username}', ";
+        $query .= "user_email = '{$user_email}', ";
+        $query .= "user_password = '{$hashed_password}' ";// the new update hashed password
+        $query .= "WHERE user_id = {$catch_user_id} ";
+
+        //sending the query
+        $edit_user_query = mysqli_query($connection, $query);
+        //making sure the query works
+        confirm_query($edit_user_query);
+
+        //notification link
+        echo "User Updated" . "<a href='users.php'>View Users?</a>";
+
+    }
 
   }
 
+} else {
+
+  header("Location: index.php");
+
+}
 
 ?>
-
-
-
 
 <form action="" method="post" enctype="multipart/form-data">
 
@@ -116,6 +119,7 @@ if (isset($_POST['edit_user'])) {
           echo "<option value='admin'>admin</option>";
 
         }
+
       ?>
 
     </select>

@@ -156,7 +156,15 @@
             echo "<td>$post_status</td>";
             echo "<td><img src='../images/$post_image' width='100' height='100'</td>";
             echo "<td>$post_tags</td>";
-            echo "<td>$post_comment_count</td>";
+
+            $query = "SELECT * FROM comments WHERE comment_post_id = $post_id ";
+            $send_comment_query = mysqli_query($connection, $query);
+            $row = mysqli_fetch_array($send_comment_query);
+            $comment_id = $row['comment_id'];
+
+            $count_comments = mysqli_num_rows($send_comment_query);
+            //passing a parameter $comment_id to catch it using a GET request
+            echo "<td><a href='comment.php?id=$comment_id'>$count_comments</a></td>";
             echo "<td>$post_date</td>";
             //we can divide values by using an ampersand (&)
             //here we pass 2 parameters the source to take us to the page and

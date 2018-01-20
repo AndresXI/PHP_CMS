@@ -173,7 +173,6 @@
           $select_all_subscribers = mysqli_query($connection, $query);
           $subscribers_count = mysqli_num_rows($select_all_subscribers);
 
-
           ?>
 
 

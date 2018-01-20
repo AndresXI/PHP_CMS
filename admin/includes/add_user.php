@@ -18,6 +18,7 @@ if(isset($_POST['create_user'])) {
 
     $user_email = $_POST['user_email'];
     $user_password = $_POST['user_password'];
+    $user_password = password_hash($user_password, PASSWORD_BCRYPT, array('cost' => 10));
     //date function in php
     //$post_date = date('d-m-y');
 
