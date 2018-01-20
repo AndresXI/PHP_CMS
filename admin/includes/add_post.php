@@ -7,7 +7,7 @@ if(isset($_POST['create_post'])) {
     //getting all the values from the form and then assiging them to
     //variables
     $post_title = $_POST['title'];
-    $post_author = $_POST['author'];
+    $post_users = $_POST['post_users'];
     $post_category_id = $_POST['post_category_id'];
     $post_status = $_POST['post_status'];
 
@@ -25,10 +25,10 @@ if(isset($_POST['create_post'])) {
     //to the images folder in our project cms
     move_uploaded_file($post_image_temp, "../images/$post_image");
 
-   $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status) ";
+   $query = "INSERT INTO posts(post_category_id, post_title, post_users, post_date, post_image, post_content, post_tags, post_status) ";
 
    //the values are coming from the form
-   $query .= "VALUES({$post_category_id}, '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}') ";
+   $query .= "VALUES({$post_category_id}, '{$post_title}', '{$post_users}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}') ";
 
    $create_post_query = mysqli_query($connection, $query);
 
@@ -59,6 +59,7 @@ if(isset($_POST['create_post'])) {
   </div>
 
   <div class="form-group">
+    <label for="category">Category</label>
     <select class="post_category" name="post_category_id">
 
       <?php
@@ -80,10 +81,33 @@ if(isset($_POST['create_post'])) {
     </select>
   </div>
 
-  <div class="form-group">
+    <div class="form-group">
+      <label for="users">Users</label>
+      <select name="post_users">
+
+        <?php
+        //select all the data from the categories table
+          $query = "SELECT * FROM users ";
+          $select_users = mysqli_query($connection, $query);
+          confirm_query($select_users);
+
+            //to display all the values we use a while while loop
+            while($row = mysqli_fetch_assoc($select_users)) {
+              //finding the name of the rows and displaying them
+              $user_id = $row["user_id"];
+              $username = $row["username"];
+              //display it in an options dropdown menu
+              echo "<option selected value='$username'>{$username}</option>";
+            }
+        ?>
+
+      </select>
+    </div>
+
+  <!-- <div class="form-group">
     <label class="col-form-label" for="formGroupExampleInput2">Post Author</label>
     <input type="text" class="form-control" id="formGroupExampleInput2" name="author">
-  </div>
+  </div> -->
 
 
   <div class="form-group">

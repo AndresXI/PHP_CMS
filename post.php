@@ -37,7 +37,7 @@ include "includes/db.php";
           while ($row = mysqli_fetch_assoc($select_all_posts_query)) {
               //finding the name of the rows and displaying them
               $post_title = $row["post_title"];
-              $post_author = $row["post_author"];
+              $post_author = $row["post_users"];
               $post_date = $row["post_date"];
               $post_image = $row["post_image"];
               $post_content = $row["post_content"];
@@ -108,10 +108,8 @@ include "includes/db.php";
             if (!$create_comment_query) {
 
               die("QUERY FAILED" . mysqli_error($connection));
-              
-            }
 
-            $update_comment_count = mysqli_query($connection, $query);
+            }
 
          } else {
 
@@ -121,10 +119,7 @@ include "includes/db.php";
 
        }//end ifsset statement query
 
-
-
       ?>
-
 
       <hr>
 

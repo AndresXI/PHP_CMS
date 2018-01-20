@@ -19,18 +19,18 @@ include "includes/db.php";
 
               if (isset($_GET["p_id"])) {
                 $catch_post_id = $_GET['p_id'];
-                //coming from the author_post.php page 
+                //coming from the author_post.php page
                 $catch_post_author = $_GET['author'];
               }
 
-              $query = "SELECT * FROM posts WHERE post_author = '{$catch_post_author}' ";
+              $query = "SELECT * FROM posts WHERE post_users = '{$catch_post_author}' ";
               $select_all_posts_query = mysqli_query($connection, $query);
 
               //to display all the values we use a while while loop
               while($row = mysqli_fetch_assoc($select_all_posts_query)) {
                   //finding the name of the rows and displaying them
                   $post_title = $row["post_title"];
-                  $post_author = $row["post_author"];
+                  $post_author = $row["post_users"];
                   $post_date = $row["post_date"];
                   $post_image = $row["post_image"];
                   $post_content = $row["post_content"];

@@ -29,7 +29,7 @@
 
           while ($row = mysqli_fetch_array($select_post_query)) {
 
-            $post_author = $row["post_author"];
+            $post_users = $row["post_users"];
             $post_title = $row["post_title"];
             $post_category_id = $row["post_category_id"];
             $post_status = $row["post_status"];
@@ -40,8 +40,8 @@
 
           }
 
-          $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status) ";
-          $query .= "VALUES({$post_category_id}, '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}') ";
+          $query = "INSERT INTO posts(post_category_id, post_title, post_users, post_date, post_image, post_content, post_tags, post_status) ";
+          $query .= "VALUES({$post_category_id}, '{$post_title}', '{$post_users}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}') ";
           $copy_query = mysqli_query($connection, $query);
 
           if (!$copy_query) {
@@ -91,7 +91,7 @@
       <tr>
         <th><input id="selectAllBoxes" type="checkbox"></th>
         <th>Post ID</th>
-        <th>Author</th>
+        <th>Users</th>
         <th>Title</th>
         <th>Category</th>
         <th>Status</th>
@@ -119,6 +119,7 @@
               //finding the name of the rows and displaying them
               $post_id = $row["post_id"];
               $post_author = $row["post_author"];
+              $post_users = $row["post_users"];
               $post_title = $row["post_title"];
               $post_category_id = $row["post_category_id"];
               $post_status = $row["post_status"];
@@ -137,7 +138,19 @@
 
               <?php
               echo "<td>$post_id</td>";
-              echo "<td>$post_author</td>";
+
+
+
+              if (!empty($post_author)) {
+
+                echo "<td>$post_author</td>";
+
+              } elseif (!empty($post_users)) {
+
+                echo "<td>$post_users</td>";
+
+              }
+
               echo "<td>$post_title</td>";
 
 
@@ -164,7 +177,7 @@
 
             $count_comments = mysqli_num_rows($send_comment_query);
             //passing a parameter $comment_id to catch it using a GET request
-            echo "<td><a href='comment.php?id=$comment_id'>$count_comments</a></td>";
+            echo "<td><a href='post_comments.php?id=$post_id'>$count_comments (Click to View All Comments)</a></td>";
             echo "<td>$post_date</td>";
             //we can divide values by using an ampersand (&)
             //here we pass 2 parameters the source to take us to the page and
