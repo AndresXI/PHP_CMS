@@ -6,18 +6,18 @@ if(isset($_POST['create_post'])) {
 
     //getting all the values from the form and then assiging them to
     //variables
-    $post_title = $_POST['title'];
-    $post_users = $_POST['post_users'];
-    $post_category_id = $_POST['post_category_id'];
-    $post_status = $_POST['post_status'];
+    $post_title = escape($_POST['title']);
+    $post_users = escape($_POST['post_users']);
+    $post_category_id = escape($_POST['post_category_id']);
+    $post_status = escape($_POST['post_status']);
 
     //for the post images we need the superglobal 'FILES'
-    $post_image = $_FILES['image']['name'];
+    $post_image = escape($_FILES['image']['name']);
     //temporary location in server
-    $post_image_temp = $_FILES['image']['tmp_name'];
+    $post_image_temp = escape($_FILES['image']['tmp_name']);
 
-    $post_tags = $_POST['post_tags'];
-    $post_content = $_POST['post_content'];
+    $post_tags = escape($_POST['post_tags']);
+    $post_content = escape($_POST['post_content']);
     //date function in php
     $post_date = date('d-m-y');
 

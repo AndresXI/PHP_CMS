@@ -1,0 +1,10 @@
+{
+    "name": "andres/php_cms",
+    "authors": [
+        {
+            "name": "Andres Alcocer",
+            "email": "andresalcocer7@yahoo.com"
+        }
+    ],
+    "require": {}
+}

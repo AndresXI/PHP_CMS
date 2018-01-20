@@ -4,7 +4,7 @@
 
 if (isset($_GET['edit_user'])) {
 
-  $catch_user_id = $_GET['edit_user'];
+  $catch_user_id = escape($_GET['edit_user']);
 
   // retreiving data from that specific user
   $query = "SELECT * FROM users WHERE user_id = {$catch_user_id}";
