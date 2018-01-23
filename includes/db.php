@@ -27,7 +27,7 @@ $username = $url["b4528cfdbfca45"];
 $password = $url["f1bbd1d9"];
 $db = substr($url["heroku_d52aa83a8f80e95"], 1);
 
-$connection = new mysqli($server, $username, $password, $db);
+$connection = mysqli_connect($server, $username, $password, $db);
 
 
 
