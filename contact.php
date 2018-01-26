@@ -5,22 +5,16 @@
 
 <?php
 
-// The message
-$message = "Line 1\r\nLine 2";
-
-// In case any of our lines are larger than 70 characters, we should use wordwrap()
-$message = wordwrap($message, 70, "\r\n");
-
-// Send
-mail('andresalcocer7@yahoo.com', 'My Subject', $message);
-
-
   // to retrieve data we use a superglobal POST
   if (isset($_POST["submit"])) {
 
     $to = "andresalcocer7@yahoo.com";
-    $subject = $_POST["subject"];
+    $subject = wordwrap($_POST["subject"], 70);
     $body = $_POST["body"];
+    $header = $_POST["email"];
+
+    // Send
+    mail($to, $subject, $body, $header);
 
   }
 
