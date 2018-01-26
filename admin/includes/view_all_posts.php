@@ -1,6 +1,8 @@
 
 
 <?php
+include("delete_modal.php");
+
 // check if the array is available by using the name attribute
   if(isset($_POST['checkBoxArray'])) {
 
@@ -64,6 +66,28 @@
   }
 
 ?>
+
+<script>
+
+$(document).ready(function() {
+
+  $(".delete_link").on('click', function(){
+
+    // get the id when the user clicks the delte link,
+    var Id = $(this).attr("rel");
+    var delete_url = "posts.php?delete=" + Id + "";
+
+    // attr grabs the value for that specific attribute
+    // the second argument changes the value of the href attribute
+    $(".modal_delete_link").attr("href", delete_url);
+
+    $("#myModal").modal("show");
+
+  });
+
+});
+
+</script>
 
 <form action="" method="post">
 
@@ -186,7 +210,8 @@
             echo "<td><a href='posts.php?reset={$post_id}'>$post_views</a></td>";
             echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
             //create link to delete post by grabing the post ID
-            echo "<td><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \" href='posts.php?delete={$post_id}'>Delete</a></td>";
+            echo "<td><a href='javascript:void(0)' rel='$post_id' class='delete_link'>Delete</a></td>";
+            //echo "<td><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \" href='posts.php?delete={$post_id}'>Delete</a></td>";
             echo "</tr>";
       }
 
@@ -197,6 +222,7 @@
   </table>
 
 </form><!-- end form -!>
+
 
 <?php
 //Delete query
@@ -210,6 +236,8 @@
 
   }
 
+
+
 //reset query for post views
   if (isset($_GET['reset'])) {
 
@@ -220,7 +248,5 @@
     header("Location: posts.php");
 
   }
-
-
 
 ?>
