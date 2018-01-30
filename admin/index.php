@@ -31,15 +31,7 @@
                      </div>
                      <div class="col-xs-9 text-right">
 
-                      <?php
-
-                        $query = "SELECT * FROM posts ";
-                        $select_all_posts = mysqli_query($connection, $query);
-                        $post_count = mysqli_num_rows($select_all_posts);
-
-                        echo "<div class='huge'>{$post_count}</div>";
-
-                      ?>
+                      <div class='huge'><?php echo $post_count = recordCount("posts"); ?></div>
 
                          <div>Posts</div>
                      </div>
@@ -64,15 +56,7 @@
                          </div>
                          <div class="col-xs-9 text-right">
 
-                           <?php
-
-                             $query = "SELECT * FROM comments ";
-                             $select_all_comments = mysqli_query($connection, $query);
-                             $comment_count = mysqli_num_rows($select_all_comments);
-
-                             echo "<div class='huge'>{$comment_count}</div>";
-
-                           ?>
+                         <div class='huge'><?php echo $comment_count = recordCount("comments"); ?></div>
 
                            <div>Comments</div>
                          </div>
@@ -97,15 +81,8 @@
                          </div>
                          <div class="col-xs-9 text-right">
 
-                           <?php
+                         <div class='huge'><?php echo $users_count = recordCount("users"); ?></div>
 
-                             $query = "SELECT * FROM users ";
-                             $select_all_users = mysqli_query($connection, $query);
-                             $users_count = mysqli_num_rows($select_all_users);
-
-                             echo "<div class='huge'>{$users_count}</div>";
-
-                           ?>
                              <div> Users</div>
                          </div>
                      </div>
@@ -129,15 +106,8 @@
                          </div>
                          <div class="col-xs-9 text-right">
 
-                           <?php
+                         <div class='huge'><?php echo $category_count = recordCount("categories"); ?></div>
 
-                             $query = "SELECT * FROM categories ";
-                             $select_all_categoires = mysqli_query($connection, $query);
-                             $category_count = mysqli_num_rows($select_all_categoires);
-
-                             echo "<div class='huge'>{$category_count}</div>";
-
-                           ?>
                               <div>Categories</div>
                          </div>
                      </div>
@@ -157,21 +127,13 @@
 
           <?php
 
-          $query = "SELECT * FROM posts WHERE post_status = 'publish'";
-          $select_all_publish_posts = mysqli_query($connection, $query);
-          $post_publish_count = mysqli_num_rows($select_all_publish_posts);
+            $post_publish_count = checkStatus('posts', 'post_status', 'publish'); 
 
-          $query = "SELECT * FROM posts WHERE post_status = 'draft'";
-          $select_all_draft_posts = mysqli_query($connection, $query);
-          $post_draft_count = mysqli_num_rows($select_all_draft_posts);
-
-          $query = "SELECT * FROM comments WHERE comment_status = 'unapprove'";
-          $unapprove_comments = mysqli_query($connection, $query);
-          $unapprove_comments_count = mysqli_num_rows($unapprove_comments);
-
-          $query = "SELECT * FROM users WHERE user_role = 'subscriber'";
-          $select_all_subscribers = mysqli_query($connection, $query);
-          $subscribers_count = mysqli_num_rows($select_all_subscribers);
+            $post_draft_count = checkStatus('posts', 'post_status', 'draft');
+            
+            $unapprove_comments_count = checkStatus('comments', 'comment_status', 'unapprove');
+           // checking the user role
+            $subscribers_count = checkStatus('users', 'user_role', 'subscriber');
 
           ?>
 
@@ -183,7 +145,7 @@
      google.charts.setOnLoadCallback(drawChart);
 
      function drawChart() {
-       var data = google.visualization.arrayToDataTable([
+         var data = google.visualization.arrayToDataTable([
          ['Data', 'Count'],
 
          <?php
@@ -197,7 +159,6 @@
           }
 
          ?>
-
 
        ]);
 
@@ -215,7 +176,6 @@
    </script>
 
    <div id="columnchart_material" style="width: 'auto'; height: 500px;"></div>
-
 
      </div>
 

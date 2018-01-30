@@ -17,8 +17,19 @@
         <!-- /.input-group -->
     </div>
 
-    <!-- Log in Form -->
-    <div class="well">
+
+    <!-- removing the log in from  when users login -->
+    <?php if (isset($_SESSION["user_role"])): ?>
+
+        <div class="well">
+            <h4>Logged in as <?php echo $_SESSION["username"]; ?> </h4>
+            <a href="includes/logout.php" class="btn btn-primary">Log Out</a>
+
+        </div>
+
+    <!-- else if we are not logged in  -->
+    <?php else:  ?>
+
         <h4>Login</h4>
         <form action="includes/login.php" method="post">
 
@@ -34,14 +45,13 @@
           </div>
 
        </form> <!--search form-->
-        <!-- /.input-group -->
-    </div>
+
+    <?php endif; ?>
 
 
 
     <!-- Blog Categories Well -->
     <div class="well">
-
     <?php
       //select all the data from the categories table
         $query = "SELECT * FROM categories LIMIT 3";

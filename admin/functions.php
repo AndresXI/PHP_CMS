@@ -145,6 +145,40 @@
 
 
 
+  //functoin record count, counts the items in a talbe row 
+  function recordCount($table) {
+
+    global $connection;
+
+    $query = "SELECT * FROM " . $table;
+    $select_all_posts = mysqli_query($connection, $query);
+
+    $result = mysqli_num_rows($select_all_posts);
+    //making sure our query works 
+    confirm_query($result); 
+
+    return $result;
+
+  }
+
+
+
+  // checking the status
+  function checkStatus($table, $column, $status) {
+
+    global $connection; 
+
+    $query = "SELECT * FROM $table WHERE $column = '$status'";
+    $result = mysqli_query($connection, $query);
+
+    confirm_query($result); 
+
+    return mysqli_num_rows($result);
+
+  }
+
+
+
 
 
 

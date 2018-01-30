@@ -41,21 +41,21 @@ if(isset($_POST["update_post"])) {
   $post_tags = $_POST["post_tags"];
   $post_content = $_POST["post_content"];
 
-//moving the image from a temporary location to a permanent location
+  //moving the image from a temporary location to a permanent location
    move_uploaded_file($post_image_temp, "../images/$post_image");
 
-//making sure the "$post_image" is not empty
-  if(empty($post_image)) {
-    $query = "SELECT * FROM posts WHERE post_id = $the_post_id ";
-    //getting the image from the database
-    $select_image = mysqli_query($connection, $query);
+    //making sure the "$post_image" is not empty
+      if(empty($post_image)) {
+        $query = "SELECT * FROM posts WHERE post_id = $the_post_id ";
+        //getting the image from the database
+        $select_image = mysqli_query($connection, $query);
 
-    while($row = mysqli_fetch_array($select_image)) {
-      $post_image = $row["post_image"];
-    }
-  }
+        while($row = mysqli_fetch_array($select_image)) {
+          $post_image = $row["post_image"];
+        }
+      }
 
-//constructing the update query -- and updating the database
+  //constructing the update query -- and updating the database
   $query = "UPDATE posts SET ";
   $query .= "post_title = '{$post_title}', ";
   $query .= "post_category_id = '{$post_category_id}', ";
@@ -66,7 +66,7 @@ if(isset($_POST["update_post"])) {
   $query .= "post_content = '{$post_content}', ";
   $query .= "post_image = '{$post_image}' ";
   $query .= "WHERE post_id = {$the_post_id} ";
-
+  
   //sending the query
   $update_post = mysqli_query($connection, $query);
   //making sure the query works
@@ -109,7 +109,17 @@ if(isset($_POST["update_post"])) {
         $cat_title = $row["cat_title"];
 
         //display it in an options dropdown menu
-        echo "<option selected value='$cat_id'>{$cat_title}</option>";
+        echo "<option value='$cat_id'>{$cat_title}</option>";
+
+        if ($cat_id == $post_category_id) {
+
+            echo "<option selected value='$cat_id'>{$cat_title}</option>";
+
+        } else {
+
+
+        }
+
       }
 
       ?>
@@ -186,3 +196,4 @@ if(isset($_POST["update_post"])) {
   </div>
 
 </form>
+

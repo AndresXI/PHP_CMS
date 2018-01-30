@@ -37,10 +37,25 @@ include "includes/db.php";
 
       }
 
+      if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin') {
+        // for admin select all the posts
+        $post_query_count = "SELECT * FROM posts ";
+
+      } else {
+
+        //for anyone else show only the published posts
+        $post_query_count = "SELECT * FROM posts WHERE post_status = 'publish' ";
+      }
+
       //finding the number of all the posts
-      $post_query_count = "SELECT * FROM posts ";
       $find_count = mysqli_query($connection, $post_query_count);
       $count = mysqli_num_rows($find_count);
+
+      if ($count < 1) {
+
+          echo "<h1 class='text-center'>NO POSTS AVAILABLE</h1>";
+
+      } else {
 
       //building a pagination system
       $count = ceil($count / 7);
@@ -63,8 +78,7 @@ include "includes/db.php";
       ?>
 
           <h1 class="page-header">
-              Page Heading
-              <small>Secondary Text</small>
+              Posts
           </h1>
 
           <!-- First Blog Post -->
@@ -94,15 +108,14 @@ include "includes/db.php";
 
           <hr>
 
-<?php   }     ?>
+
+<?php   } } ?>
 
 
     </div>
 
     <!-- Blog Sidebar Widgets Column -->
     <?php include "includes/sidebar.php"; ?>
-
-
 
 </div>
 <!-- /.row -->

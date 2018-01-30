@@ -19,13 +19,27 @@ include "includes/db.php";
 
               if(isset($_GET["category"])) {
 
-                $catch_category_id = $_GET["category"];
+              $catch_category_id = $_GET["category"];
+
+              if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin') {
+                // for admin select all the posts
+                $query = "SELECT * FROM posts WHERE post_category_id = $catch_category_id ";
+
+
+              } else {
+
+                //for anyone else show only the published posts
+                $query = "SELECT * FROM posts WHERE post_category_id = $catch_category_id AND post_status = 'publish' ";
+
               }
 
-
-
-              $query = "SELECT * FROM posts WHERE post_category_id = $catch_category_id ";
               $select_all_posts_query = mysqli_query($connection, $query);
+
+              if (mysqli_num_rows($select_all_posts_query) < 1) {
+
+                echo "<h1 class='text-center'>NO POSTS AVAILABLE</h1>";
+
+              } else {
 
               //to display all the values we use a while while loop
               while($row = mysqli_fetch_assoc($select_all_posts_query)) {
@@ -64,14 +78,16 @@ include "includes/db.php";
 
                     <hr>
 
-       <?php  }     ?>
+       <?php  } }  } else {
+
+                header("Location: index.php");
+
+       }?>
 
             </div>
 
             <!-- Blog Sidebar Widgets Column -->
             <?php include "includes/sidebar.php"; ?>
-
-
 
         </div>
         <!-- /.row -->

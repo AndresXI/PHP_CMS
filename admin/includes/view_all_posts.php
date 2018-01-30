@@ -35,6 +35,7 @@ include("delete_modal.php");
             $post_title = $row["post_title"];
             $post_category_id = $row["post_category_id"];
             $post_status = $row["post_status"];
+            $post_author = $row["post_author"];
             $post_image = $row["post_image"];
             $post_tags = $row["post_tags"];
             $post_date = $row["post_date"];
@@ -42,8 +43,9 @@ include("delete_modal.php");
 
           }
 
-          $query = "INSERT INTO posts(post_category_id, post_title, post_users, post_date, post_image, post_content, post_tags, post_status) ";
-          $query .= "VALUES({$post_category_id}, '{$post_title}', '{$post_users}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}') ";
+          //inserting the values into the tables 
+          $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_users, post_date, post_image, post_content, post_tags, post_status) ";
+          $query .= "VALUES({$post_category_id}, '{$post_title}', '{$post_author}', '{$post_users}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}') ";
           $copy_query = mysqli_query($connection, $query);
 
           if (!$copy_query) {
