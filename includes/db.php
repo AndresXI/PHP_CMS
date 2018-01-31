@@ -1,3 +1,5 @@
+
+<?php ob_start(); ?>
 <?php
 //connecting to the online database
 //

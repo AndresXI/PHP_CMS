@@ -1,6 +1,17 @@
-<?php
-include "includes/admin_header.php";
-?>
+ 
+ <?php include "includes/admin_header.php"; ?>
+
+ <?php 
+ 
+  // log user out if they are not an admin 
+    if(!is_admin($_SESSION['username'])) {
+
+      header("Location: index.php"); 
+
+    }
+ 
+ ?>
+
     <div id="wrapper">
 
       <!-- Navigation -->
@@ -44,8 +55,6 @@ include "includes/admin_header.php";
 
 
                       ?>
-
-
 
                     </div>
                 </div>

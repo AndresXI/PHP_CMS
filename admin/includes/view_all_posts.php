@@ -134,28 +134,38 @@ $(document).ready(function() {
 
     <tbody>
 
-      <?php
+    <?php
 
-      //select all the data from the posts table
-        $query = "SELECT * FROM posts ORDER BY post_id DESC ";
-        $select_posts = mysqli_query($connection, $query);
+    //select all the data from the posts table
+    // $query = "SELECT * FROM posts ORDER BY post_id DESC ";
 
-            //to display all the values we use a while while loop
-            while($row = mysqli_fetch_assoc($select_posts)) {
-              //finding the name of the rows and displaying them
-              $post_id = $row["post_id"];
-              $post_author = $row["post_author"];
-              $post_users = $row["post_users"];
-              $post_title = $row["post_title"];
-              $post_category_id = $row["post_category_id"];
-              $post_status = $row["post_status"];
-              $post_image = $row["post_image"];
-              $post_tags = $row["post_tags"];
-              $post_comment_count = $row["post_comment_count"];
-              $post_date = $row["post_date"];
-              $post_views = $row["post_views"];
+    //join talbes with dot notation and separate with commas 
+    $query = "SELECT posts.post_id, posts.post_author, posts.post_users, posts.post_title, posts.post_category_id, posts.post_status, posts.post_image, ";
+    $query .= "posts.post_tags, posts.post_comment_count, posts.post_date, posts.post_views, categories.cat_id, categories.cat_title ";
+    $query .= "FROM posts "; // this query comes from the posts because it is our main table 
+    $query .= "LEFT JOIN categories ON posts.post_category_id = categories.cat_id ORDER BY posts.post_id DESC";
 
-              echo "<tr>";
+    $select_posts = mysqli_query($connection, $query);
+
+        //to display all the values we use a while while loop
+        while($row = mysqli_fetch_assoc($select_posts)) {
+          //finding the name of the rows and displaying them
+          $post_id = $row["post_id"];
+          $post_author = $row["post_author"];
+          $post_users = $row["post_users"];
+          $post_title = $row["post_title"];
+          $post_category_id = $row["post_category_id"];
+          $post_status = $row["post_status"];
+          $post_image = $row["post_image"];
+          $post_tags = $row["post_tags"];
+          $post_comment_count = $row["post_comment_count"];
+          $post_date = $row["post_date"];
+          $post_views = $row["post_views"];
+          //items from the other table 
+          $category_id = $row["cat_id"];
+          $category_title = $row["cat_title"];
+
+          echo "<tr>";
 
       ?>
 
@@ -164,8 +174,6 @@ $(document).ready(function() {
 
               <?php
               echo "<td>$post_id</td>";
-
-
 
               if (!empty($post_author)) {
 
@@ -180,17 +188,18 @@ $(document).ready(function() {
               echo "<td>$post_title</td>";
 
 
-              //select all the data from the categories table
-              $query = "SELECT * FROM categories WHERE cat_id = {$post_category_id} ";
-              $select_categories_id = mysqli_query($connection, $query);
-              //to display all the values we use a while while loop
-              while($row = mysqli_fetch_assoc($select_categories_id)) {
-                  //finding the name of the rows and displaying them
-                  $cat_title = $row["cat_title"];
-                  $cat_id = $row["cat_id"];
-                  echo "<td>{$cat_title}</td>";
+              // //select all the data from the categories table
+              // $query = "SELECT * FROM categories WHERE cat_id = {$post_category_id} ";
+              // $select_categories_id = mysqli_query($connection, $query);
+              // //to display all the values we use a while while loop
+              // while($row = mysqli_fetch_assoc($select_categories_id)) {
+              //     //finding the name of the rows and displaying them
+              //     $cat_title = $row["cat_title"];
+              //     $cat_id = $row["cat_id"];
 
-            }
+            echo "<td>$category_title</td>";
+
+            
 
             echo "<td>$post_status</td>";
             echo "<td><img src='../images/$post_image' width='100' height='100'</td>";

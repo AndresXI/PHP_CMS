@@ -141,39 +141,39 @@
      <div class="row">
 
        <script type="text/javascript">
-     google.charts.load('current', {'packages':['bar']});
-     google.charts.setOnLoadCallback(drawChart);
+            google.charts.load('current', {'packages':['bar']});
+            google.charts.setOnLoadCallback(drawChart);
 
-     function drawChart() {
-         var data = google.visualization.arrayToDataTable([
-         ['Data', 'Count'],
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable([
+                ['Data', 'Count'],
 
-         <?php
+                <?php
 
-          $element_text = ["All Posts", 'Active Post', "Draft Posts", "Comments", "Pending Comments", "Users", "Subscribers", "Categories"];
-          $element_count = [$post_count, $post_publish_count, $post_draft_count, $comment_count, $unapprove_comments_count, $users_count, $subscribers_count, $category_count];
+                $element_text = ["All Posts", 'Active Post', "Draft Posts", "Comments", "Pending Comments", "Users", "Subscribers", "Categories"];
+                $element_count = [$post_count, $post_publish_count, $post_draft_count, $comment_count, $unapprove_comments_count, $users_count, $subscribers_count, $category_count];
 
-          for($i = 0; $i < 8; $i++) {
+                for($i = 0; $i < 8; $i++) {
 
-            echo "['{$element_text[$i]}'" . "," . "{$element_count[$i]}],";
-          }
+                    echo "['{$element_text[$i]}'" . "," . "{$element_count[$i]}],";
+                }
 
-         ?>
+                ?>
 
-       ]);
+            ]);
 
-       var options = {
-         chart: {
-           title: '',
-           subtitle: '',
-         }
-       };
+            var options = {
+                chart: {
+                title: '',
+                subtitle: '',
+                }
+            };
 
-       var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
 
-       chart.draw(data, google.charts.Bar.convertOptions(options));
-     }
-   </script>
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+            }
+        </script>
 
    <div id="columnchart_material" style="width: 'auto'; height: 500px;"></div>
 

@@ -1,4 +1,5 @@
 
+<?php ob_start(); ?>
 <?php session_start(); ?> <!-- function used to turn on sessions -->
 
 <?php
