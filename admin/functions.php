@@ -263,37 +263,27 @@ function resgister_user($username, $password, $email) {
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-    if(username_exists($username)) {
+    // sanitizing data
+    $username = mysqli_real_escape_string($connection, $username);
+    $email = mysqli_real_escape_string($connection, $email);
+    $password = mysqli_real_escape_string($connection, $password);
 
-        $confirm_message = "user exists"; 
+    $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
 
-    }
+    $query = "INSERT INTO users (username, user_email, user_password, user_role) ";
+    $query .= "VALUES('{$username}', '{$email}', '{$password}', 'subscriber' )";
+    $register_user_query = mysqli_query($connection, $query);
+
+    confirm_query($register_user_query);
+
+    $confirm_message = "Your Registration has been submitted!";
 
 
-    if (!empty($username) && !empty($email) && !empty($password)) {
-
-      // sanitizing data
-      $username = mysqli_real_escape_string($connection, $username);
-      $email = mysqli_real_escape_string($connection, $email);
-      $password = mysqli_real_escape_string($connection, $password);
-
-      $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
-
-      $query = "INSERT INTO users (username, user_email, user_password, user_role) ";
-      $query .= "VALUES('{$username}', '{$email}', '{$password}', 'subscriber' )";
-      $register_user_query = mysqli_query($connection, $query);
-
-      confirm_query($register_user_query);
-
-      $confirm_message = "Your Registration has been submitted!";
-
-    } 
-
-}
+} // end register function 
 
 
 
-function login_user($username, $email) {
+function login_user($username, $password) {
 
     global $connection; 
 
@@ -334,12 +324,11 @@ function login_user($username, $email) {
         $_SESSION['firstname'] = $db_first_name;
         $_SESSION['user_role'] = $db_user_role;
 
-        //receive the session at admin/index.php
-        header("Location: ../admin/index.php");
+        redirect("/admin/index.php");
 
     } else {
 
-      header("Location: ../index.php");
+      redirect("/cms/index.php");
 
     }
 

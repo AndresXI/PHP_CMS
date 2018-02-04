@@ -217,11 +217,26 @@ $(document).ready(function() {
             //we can divide values by using an ampersand (&)
             //here we pass 2 parameters the source to take us to the page and
             //the post ID to grab that especific post
-            echo "<td><a href='../post.php?p_id={$post_id}'>View Post</a></td>";
+            echo "<td><a href='../post.php?p_id={$post_id}' class='btn btn-primary'>View Post</a></td>";
             echo "<td><a href='posts.php?reset={$post_id}'>$post_views</a></td>";
-            echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
+            echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}' class='btn btn-info'>Edit</a></td>";
+
+
+            ?>
+
+            <form action="" method="post">
+            
+                <input type="hidden" value="<?php echo $post_id ?>" name="post_id">
+                <?php
+                  echo"<td><input type='submit' name='delete' value='delete' class='btn btn-danger'></td>";
+                ?>
+            
+            </form>
+
+            <?php 
+
             //create link to delete post by grabing the post ID
-            echo "<td><a href='javascript:void(0)' rel='$post_id' class='delete_link'>Delete</a></td>";
+            // echo "<td><a href='javascript:void(0)' rel='$post_id' class='delete_link'>Delete</a></td>";
             //echo "<td><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \" href='posts.php?delete={$post_id}'>Delete</a></td>";
             echo "</tr>";
       }
@@ -237,9 +252,9 @@ $(document).ready(function() {
 
 <?php
 //Delete query
-  if (isset($_GET['delete'])) {
+  if (isset($_POST['delete'])) {
 
-    $catch_post_id = $_GET['delete'];
+    $catch_post_id = $_POST['post_id'];
 
     $query = "DELETE FROM posts WHERE post_id = {$catch_post_id} ";
     $delete_query = mysqli_query($connection, $query);

@@ -8,7 +8,7 @@
 <?php
 
   // to retrieve data we use a superglobal POST
-  if (isset($_POST["submit"])) {
+  if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $username = trim($_POST["username"]);
     $email = trim($_POST["email"]);
@@ -44,33 +44,43 @@
 // email validation 
     if($email == "") {
 
-        $error["email"] = "email cannot be empty!"; 
+        $error["email"] = "Email cannot be empty!"; 
         
     }
 
     if(username_exists($email)) {
 
-        $error["eamil"] = "email already exists, <a href='index.php'>Login</a>"; 
+        $error["eamil"] = "Email already exists, <a href='index.php'>Login</a>"; 
         
     }
 
 // password validation 
     if($password == "") {
 
-        $error["password"] = "Password cannot be empty"; 
+        $error["password"] = "Password cannot be empty!"; 
 
     }
 
+    // going through the array of errors 
     foreach ($error as $key => $value) {
 
         if(empty($value)) {
 
-            // register_user($username, $email, $password);
-            // login_user($username, $email, $password); 
+            // if empty unset that key, to clean it up 
+            unset($error[$key]); 
 
         }
 
-    }
+    } // end foreach 
+
+    if (empty($error)) {
+
+        //if there are no errors the register user 
+        resgister_user($username, $password, $email);
+
+        // login the user and redirect them to the admin page 
+        login_user($username, $password);
+    } 
 
   } //end ifsset function
 
@@ -93,6 +103,10 @@
                             autocomplete="on"
 
                             value="<?php echo isset($username) ? $username : '' ?>" >
+
+                            <!-- Displays the error based on the username function -->
+                            <p><?php echo isset($error['username']) ? $error['username'] : '' ?></p>
+
                         </div>
                          <div class="form-group">
                             <label for="email" class="sr-only">Email</label>
@@ -100,15 +114,23 @@
                             
                             autocomplete="on"
 
-                            value="<?php echo isset($email) ? $email  : '' ?>"
-                            
-                            >
+                            value="<?php echo isset($email) ? $email  : '' ?>" >
+
+                            <p><?php echo isset($error['email']) ? $error['email'] : '' ?></p>
+
                         </div>
+
                          <div class="form-group">
                             <label for="password" class="sr-only">Password</label>
-                            <input type="password" name="password" id="key" class="form-control" placeholder="Password">
+                            <input type="password" name="password" id="key" class="form-control" placeholder="Password"
+
+                            value="<?php echo isset($password) ? $password  : '' ?>" >
+
+                            <p><?php echo isset($error['password']) ? $error['password'] : '' ?></p>
+
+
                         </div>
-                        <input type="submit" name="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
+                        <input type="submit" name="register" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
                     </form>
 
                 </div>

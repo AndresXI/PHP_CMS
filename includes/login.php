@@ -1,6 +1,7 @@
 
 <?php session_start(); ?> <!-- function used to turn on sessions -->
 <?php include "db.php"; ?>
+<?php include "../admin/functions.php"; ?>
 
 <?php
 
